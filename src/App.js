@@ -4,11 +4,13 @@ import Signup from './components/Signup'
 import Login from './components/Login'
 import About from './components/About'
 import Welcome from './components/Welcome'
+import Navbar from './components/Navbar'
 
 function App() {
 
   return (
     <div>
+      <Navbar />
       <div className="react-router-logic">
         <Switch>
           <Route path='/signup' component={ Signup } />
