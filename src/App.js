@@ -8,6 +8,18 @@ import About from './components/About'
 import Welcome from './components/Welcome'
 import Navbar from './components/Navbar'
 
+const PrivateRoute = ({ component: Component, ...rest }) => {
+  // get user via jwt token to confirm user authenticated
+  const user = localStorage.getItem('jwtToken')
+  
+  // setup a return based on user status
+  return <Route {...rest} render={(props) => (
+    user ? <Component {...rest} {...props} /> : <Redirect to='/login' />
+  )}
+  />
+}
+
+
 function App() {
   let [currentUser, setCurrentUser] = useState("")
   let [isAuthenticated, setIsAuthenticated] = useState(false)
@@ -39,14 +51,18 @@ function App() {
     }
   }
 
+  console.log(`Current user is = ${currentUser}`)
+  console.log(`Is user Authenticated? ${isAuthenticated}`)
+
   return (
     <div>
-      <Navbar />
+      <Navbar handleLogout={handleLogout} isAuthenticated={isAuthenticated} />
       <div className="react-router-logic">
         <Switch>
           <Route path='/signup' component={ Signup } />
-          <Route path='/login' render={ (props) => <Login {...props} nowCurrentUser={nowCurrentUser} /> } />
+          <Route path='/login' render={ (props) => <Login {...props} nowCurrentUser={nowCurrentUser} user={currentUser} /> } />
           <Route path='/about' component={ About } />
+          <PrivateRoute path='/profile' component={ Profile } user={currentUser} />
           <Route path='/' component={ Welcome } />
         </Switch>
       </div>
