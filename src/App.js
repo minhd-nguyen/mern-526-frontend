@@ -7,6 +7,7 @@ import Login from './components/Login'
 import About from './components/About'
 import Welcome from './components/Welcome'
 import Navbar from './components/Navbar'
+import Profile from './components/Profile'
 
 const PrivateRoute = ({ component: Component, ...rest }) => {
   // get user via jwt token to confirm user authenticated
